@@ -72,3 +72,5 @@ our adjustments for GH actions where platform does matter
 - mac + jdk 19 = 1710 tests
 - mac + jdk 20 = 1710 tests
 - mac + jdk 21 = 1710 tests
+
+- 配置文件勾选 17、bundle、format
