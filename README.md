@@ -73,4 +73,6 @@ our adjustments for GH actions where platform does matter
 - mac + jdk 20 = 1710 tests
 - mac + jdk 21 = 1710 tests
 
+
+- 项目构建 删除 mybatis.test
 - 配置文件勾选 17、bundle、format
