@@ -427,6 +427,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
   }
 
+  // 根据nameSpace绑定mapper接口
   private void bindMapperForNamespace() {
     String namespace = builderAssistant.getCurrentNamespace();
     if (namespace != null) {

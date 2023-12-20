@@ -92,6 +92,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     this(configClass, new XPathParser(inputStream, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
+  // 根据inputStream加载并解析配置文件
   private XMLConfigBuilder(Class<? extends Configuration> configClass, XPathParser parser, String environment,
       Properties props) {
     super(newConfig(configClass));
@@ -102,6 +103,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     this.parser = parser;
   }
 
+  // 解析配置文件
   public Configuration parse() {
     if (parsed) {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
@@ -386,6 +388,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  // 解析mappers节点，将mapper.xml文件加入Configuration对象中
   private void mappersElement(XNode context) throws Exception {
     if (context == null) {
       return;
