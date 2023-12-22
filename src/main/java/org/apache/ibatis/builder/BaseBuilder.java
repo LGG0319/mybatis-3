@@ -30,10 +30,17 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
  * @author Clinton Begin
+ * 解析配置文件相关builder的顶层父类
  */
 public abstract class BaseBuilder {
+
+  // Configuration是Mybatis中的核心对象  存储了Mybatis中的所有配置
   protected final Configuration configuration;
+
+  // 类型别名注册器
   protected final TypeAliasRegistry typeAliasRegistry;
+
+  // 类型转换器注册器
   protected final TypeHandlerRegistry typeHandlerRegistry;
 
   public BaseBuilder(Configuration configuration) {
