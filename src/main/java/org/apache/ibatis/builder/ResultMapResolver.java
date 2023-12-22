@@ -23,6 +23,7 @@ import org.apache.ibatis.mapping.ResultMapping;
 
 /**
  * @author Eduardo Macarron
+ * 用来创建ResultMap并添加到Configuration.resultMaps属性中
  */
 public class ResultMapResolver {
   private final MapperBuilderAssistant assistant;

@@ -45,6 +45,7 @@ public class XMLIncludeTransformer {
 
   public void applyIncludes(Node source) {
     Properties variablesContext = new Properties();
+      // 获取配置文件中的配置内容
     Properties configurationVariables = configuration.getVariables();
     Optional.ofNullable(configurationVariables).ifPresent(variablesContext::putAll);
     applyIncludes(source, variablesContext, false);
@@ -59,9 +60,13 @@ public class XMLIncludeTransformer {
    *          Current context for static variables with values
    */
   private void applyIncludes(Node source, final Properties variablesContext, boolean included) {
+      // 判断是否为include节点
     if ("include".equals(source.getNodeName())) {
+        // 查找refid对应的sql语句
       Node toInclude = findSqlFragment(getStringAttribute(source, "refid"), variablesContext);
+        // 获取子节点中的name和value属性组成Properties对象   会替换value中的占位符
       Properties toIncludeContext = getVariablesContext(source, variablesContext);
+        // 递归处理
       applyIncludes(toInclude, toIncludeContext, true);
       if (toInclude.getOwnerDocument() != source.getOwnerDocument()) {
         toInclude = source.getOwnerDocument().importNode(toInclude, true);
@@ -80,13 +85,16 @@ public class XMLIncludeTransformer {
           attr.setNodeValue(PropertyParser.parse(attr.getNodeValue(), variablesContext));
         }
       }
+        // 获取子节点
       NodeList children = source.getChildNodes();
       for (int i = 0; i < children.getLength(); i++) {
+          // 处理子节点
         applyIncludes(children.item(i), variablesContext, included);
       }
     } else if (included && (source.getNodeType() == Node.TEXT_NODE || source.getNodeType() == Node.CDATA_SECTION_NODE)
         && !variablesContext.isEmpty()) {
       // replace variables in text node
+        // 替换其中的占位符
       source.setNodeValue(PropertyParser.parse(source.getNodeValue(), variablesContext));
     }
   }

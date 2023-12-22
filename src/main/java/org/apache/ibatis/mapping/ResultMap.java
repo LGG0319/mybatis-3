@@ -35,18 +35,28 @@ import org.apache.ibatis.session.Configuration;
  * @author Clinton Begin
  */
 public class ResultMap {
+    // Configuration对象
   private Configuration configuration;
-
+    // resultMap节点的id属性
   private String id;
+    // resultMap节点的type属性
   private Class<?> type;
+    // resultMapping列表 不包含discriminator节点解析的ResultMapping
   private List<ResultMapping> resultMappings;
+    // 映射关系中带有id节点 resultMapping
   private List<ResultMapping> idResultMappings;
+    // constructor节点的resultMapping
   private List<ResultMapping> constructorResultMappings;
   private List<ResultMapping> propertyResultMappings;
+    // column属性列表
   private Set<String> mappedColumns;
+    // properties属性列表
   private Set<String> mappedProperties;
+    // discriminator节点解析出的数据
   private Discriminator discriminator;
+    // 是否有resultMap属性
   private boolean hasNestedResultMaps;
+    // 是否有select属性
   private boolean hasNestedQueries;
   private Boolean autoMapping;
 
