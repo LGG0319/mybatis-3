@@ -46,10 +46,15 @@ import org.xml.sax.SAXParseException;
  */
 public class XPathParser {
 
+    // Document对象
   private final Document document;
+    // 是否校验xml
   private boolean validation;
+    // 用于解析实体(用于解析本地DTD或XSD)
   private EntityResolver entityResolver;
+    //  variables 属性(配置文件中配置的properties)
   private Properties variables;
+    // Xpath对象
   private XPath xpath;
 
   public XPathParser(String xml) {
@@ -229,17 +234,20 @@ public class XPathParser {
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
     try {
+        // 创建DocumentBuilderFactory对象
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        // 是否校验
       factory.setValidating(validation);
-
+        // 设置其他一些属性
       factory.setNamespaceAware(false);
       factory.setIgnoringComments(true);
       factory.setIgnoringElementContentWhitespace(false);
       factory.setCoalescing(false);
       factory.setExpandEntityReferences(true);
-
+        // 创建DocumentBuilder对象
       DocumentBuilder builder = factory.newDocumentBuilder();
+        // 设置EntityResolver
       builder.setEntityResolver(entityResolver);
       builder.setErrorHandler(new ErrorHandler() {
         @Override
@@ -257,12 +265,14 @@ public class XPathParser {
           // NOP
         }
       });
+        // 创建Document对象并返回
       return builder.parse(inputSource);
     } catch (Exception e) {
       throw new BuilderException("Error creating document instance.  Cause: " + e, e);
     }
   }
 
+  // 此方法中主要是将参数赋值给对象的属性，并使用XPathFactory工厂创建XPath对象赋值给对象的xpath属性。
   private void commonConstructor(boolean validation, Properties variables, EntityResolver entityResolver) {
     this.validation = validation;
     this.entityResolver = entityResolver;
