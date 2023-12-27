@@ -110,17 +110,23 @@ public class TypeAliasRegistry {
 
   @SuppressWarnings("unchecked")
   // throws class cast exception as well if types cannot be assigned
+  // 获取别名对应的类型
   public <T> Class<T> resolveAlias(String string) {
     try {
+        // 别名为空直接返回null
       if (string == null) {
         return null;
       }
       // issue #748
+        // 转为小写
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
+        // 该别名已经注册
       if (typeAliases.containsKey(key)) {
+          // 获取对应的类型
         value = (Class<T>) typeAliases.get(key);
       } else {
+          // 未注册过，通过反射获取类
         value = (Class<T>) Resources.classForName(string);
       }
       return value;
@@ -135,11 +141,13 @@ public class TypeAliasRegistry {
 
   public void registerAliases(String packageName, Class<?> superType) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
+      // 查找父类是某个类的类
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
     Set<Class<? extends Class<?>>> typeSet = resolverUtil.getClasses();
     for (Class<?> type : typeSet) {
       // Ignore inner classes and interfaces (including package-info.java)
       // Skip also inner classes. See issue #6
+        // 忽略内部类 接口
       if (!type.isAnonymousClass() && !type.isInterface() && !type.isMemberClass()) {
         registerAlias(type);
       }
@@ -147,9 +155,12 @@ public class TypeAliasRegistry {
   }
 
   public void registerAlias(Class<?> type) {
+      // 别名默认为类名
     String alias = type.getSimpleName();
+      // 获取类上的Alias注解
     Alias aliasAnnotation = type.getAnnotation(Alias.class);
     if (aliasAnnotation != null) {
+        // 获取注解的value属性
       alias = aliasAnnotation.value();
     }
     registerAlias(alias, type);
@@ -160,11 +171,14 @@ public class TypeAliasRegistry {
       throw new TypeException("The parameter alias cannot be null");
     }
     // issue #748
+      // 别名全部为小写
     String key = alias.toLowerCase(Locale.ENGLISH);
+      // 别名已经存在抛出异常
     if (typeAliases.containsKey(key) && typeAliases.get(key) != null && !typeAliases.get(key).equals(value)) {
       throw new TypeException(
           "The alias '" + alias + "' is already mapped to the value '" + typeAliases.get(key).getName() + "'.");
     }
+      // 添加到map中
     typeAliases.put(key, value);
   }
 

@@ -34,6 +34,7 @@ import org.apache.ibatis.session.Configuration;
  * @author Clinton Begin
  * @author Simone Tripodi
  * @author Kzuki Shimizu
+ * 该类实现了TypeHandler中的方法并实现了异常捕获。继承改类我们可以很容易的实现一个自定义类型转换器
  */
 public abstract class BaseTypeHandler<T> extends TypeReference<T> implements TypeHandler<T> {
 

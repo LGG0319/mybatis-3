@@ -22,9 +22,10 @@ import java.sql.SQLException;
 
 /**
  * @author Clinton Begin
+ * 类型转换器的顶层接口，其定义了类型转换器应该具有的功能
  */
 public interface TypeHandler<T> {
-
+    // 为sql语句绑定参数  操作PreparedStament
   void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException;
 
   /**
@@ -39,6 +40,7 @@ public interface TypeHandler<T> {
    *
    * @throws SQLException
    *           the SQL exception
+   *  获取数据  操作ResultSet
    */
   T getResult(ResultSet rs, String columnName) throws SQLException;
 
