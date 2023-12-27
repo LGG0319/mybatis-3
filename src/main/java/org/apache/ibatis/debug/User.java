@@ -1,6 +1,7 @@
 package org.apache.ibatis.debug;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
@@ -9,6 +10,8 @@ public class User {
   private Date createDate;
 
   private Date updateDate;
+
+  private List<Integer> role;
 
   public Integer getId() {
     return id;
@@ -42,6 +45,14 @@ public class User {
     this.updateDate = updateDate;
   }
 
+  public List<Integer> getRole() {
+        return role;
+  }
+
+  public void setRole(List<Integer> role) {
+        this.role = role;
+  }
+
   @Override
   public String toString() {
     return "User{" +
@@ -49,6 +60,7 @@ public class User {
       ", name='" + name + '\'' +
       ", createDate=" + createDate +
       ", updateDate=" + updateDate +
+      ", role=" + role +
       '}';
   }
 }

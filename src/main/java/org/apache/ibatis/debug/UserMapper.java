@@ -1,5 +1,7 @@
 package org.apache.ibatis.debug;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface UserMapper {
 
     // 根据id查询用户信息
@@ -13,4 +15,8 @@ public interface UserMapper {
 
     // 删除用户
     int deleteUserInfo(User user);
+
+    int insert(@Param("user") User user);
+
+    User getById(@Param("id") Integer id);
 }

@@ -15,6 +15,14 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+
+    <typeAliases>
+        <typeAlias type="org.apache.ibatis.debug.typehandler.RoleTypeHandler" alias="roleTypeHandler"/>
+    </typeAliases>
+    <!--自定义类型处理器-->
+    <typeHandlers>
+            <typeHandler handler="roleTypeHandler"/>
+    </typeHandlers>
     <!--数据库连接环境设置-->
     <environments default="development">
         <environment id="development">

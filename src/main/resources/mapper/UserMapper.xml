@@ -3,6 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.apache.ibatis.debug.UserMapper">
+
+
+    <resultMap id="BaseResultMap" type="org.apache.ibatis.debug.User">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="DATE"/>
+        <result column="update_date" property="updateDate" jdbcType="DATE"/>
+        <!-- 设置为自定义的类型转换器 -->
+        <result column="role" property="role" typeHandler="org.apache.ibatis.debug.typehandler.RoleTypeHandler"/>
+    </resultMap>
+    <insert id="insert">
+        insert into user(id, name, create_date, update_date, role)
+        values (#{user.id}, #{user.name}, now(), now(),
+        <!-- 设置为自定义的类型转换器 -->
+        #{user.role, jdbcType=VARCHAR,typeHandler=org.apache.ibatis.debug.typehandler.RoleTypeHandler})
+    </insert>
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
     <select id="selectUserById" resultType="org.apache.ibatis.debug.User">
         select *
         from user
