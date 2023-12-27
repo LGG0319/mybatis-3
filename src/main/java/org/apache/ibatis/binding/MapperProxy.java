@@ -33,6 +33,7 @@ import org.apache.ibatis.util.MapUtil;
 /**
  * @author Clinton Begin
  * @author Eduardo Macarron
+ * 映射器代理类，在JDK动态代理中代理类需要实现这个接口并实现其中的invoke方法
  */
 public class MapperProxy<T> implements InvocationHandler, Serializable {
 
@@ -41,8 +42,11 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
       | MethodHandles.Lookup.PACKAGE | MethodHandles.Lookup.PUBLIC;
   private static final Constructor<Lookup> lookupConstructor;
   private static final Method privateLookupInMethod;
+    // SqlSession对象
   private final SqlSession sqlSession;
+    // Mapper接口的Class对象
   private final Class<T> mapperInterface;
+    // Mapper接口中的方法和MapperMethodInvoker的对应关系
   private final Map<Method, MapperMethodInvoker> methodCache;
 
   public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface, Map<Method, MapperMethodInvoker> methodCache) {
@@ -80,6 +84,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
+        // 如果目标方法继承自object则直接执行
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
       }
@@ -92,7 +97,9 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   private MapperMethodInvoker cachedInvoker(Method method) throws Throwable {
     try {
       return MapUtil.computeIfAbsent(methodCache, method, m -> {
+          // 判断是否为接口的默认方法
         if (!m.isDefault()) {
+            // 返回PlainMethodInvoker对象  这里维护了MapperMethod的对象
           return new PlainMethodInvoker(new MapperMethod(mapperInterface, method, sqlSession.getConfiguration()));
         }
         try {
@@ -138,7 +145,8 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args, SqlSession sqlSession) throws Throwable {
-      return mapperMethod.execute(sqlSession, args);
+        // 执行MapperMethod中的execute方法
+        return mapperMethod.execute(sqlSession, args);
     }
   }
 
