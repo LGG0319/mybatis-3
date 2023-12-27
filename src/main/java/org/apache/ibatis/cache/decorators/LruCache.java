@@ -24,11 +24,14 @@ import org.apache.ibatis.cache.Cache;
  * Lru (least recently used) cache decorator.
  *
  * @author Clinton Begin
+ * 这个装饰器也会限制缓存的大小，其会按照近期最少使用的方法进行缓存的删除
  */
 public class LruCache implements Cache {
-
+    // 被修饰的缓存对象
   private final Cache delegate;
+    // 使用的是LinkedHashMap 调用setSize时会为其设值
   private Map<Object, Object> keyMap;
+    // 用来记录最少使用的key
   private Object eldestKey;
 
   public LruCache(Cache delegate) {
@@ -47,9 +50,10 @@ public class LruCache implements Cache {
   }
 
   public void setSize(final int size) {
+      // 创建一个LinkedHashMap
     keyMap = new LinkedHashMap<Object, Object>(size, .75F, true) {
       private static final long serialVersionUID = 4267176411845948333L;
-
+        // LinkedHashMap.put()方法中会调用这个方法判断是否超长
       @Override
       protected boolean removeEldestEntry(Map.Entry<Object, Object> eldest) {
         boolean tooBig = size() > size;
@@ -86,9 +90,13 @@ public class LruCache implements Cache {
   }
 
   private void cycleKeyList(Object key) {
+      // keyMap中添加数据
     keyMap.put(key, key);
+      // 如果最少使用的key不为空
     if (eldestKey != null) {
+        // 删除最少使用的缓存
       delegate.removeObject(eldestKey);
+        // 设置为空
       eldestKey = null;
     }
   }

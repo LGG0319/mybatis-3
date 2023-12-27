@@ -31,6 +31,7 @@ import org.apache.ibatis.io.SerialFilterChecker;
 
 /**
  * @author Clinton Begin
+ * 这个装饰器提供了序列化的功能，在存储缓存时会将value进行序列化，当查询缓存时再进行反序列化
  */
 public class SerializedCache implements Cache {
 

@@ -21,12 +21,16 @@ import org.apache.ibatis.logging.LogFactory;
 
 /**
  * @author Clinton Begin
+ * 这个装饰器会记录查询缓存和查询到缓存的数量
  */
 public class LoggingCache implements Cache {
-
+    // 日志对象
   private final Log log;
+    // Cache对象
   private final Cache delegate;
+    // 获取缓存的数量
   protected int requests;
+    // 获取到缓存的数量
   protected int hits;
 
   public LoggingCache(Cache delegate) {
@@ -51,11 +55,14 @@ public class LoggingCache implements Cache {
 
   @Override
   public Object getObject(Object key) {
+      // requests加一
     requests++;
     final Object value = delegate.getObject(key);
     if (value != null) {
+        // 查询到缓存 hits加一
       hits++;
     }
+      // 如果支持debug   打印日志
     if (log.isDebugEnabled()) {
       log.debug("Cache Hit Ratio [" + getId() + "]: " + getHitRatio());
     }
