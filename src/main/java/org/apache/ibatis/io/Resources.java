@@ -29,6 +29,8 @@ import java.util.Properties;
  * A class to simplify access to resources through the classloader.
  *
  * @author Clinton Begin
+ * MyBatis提供了多个静态方法的工具类，有些方法中做了一些异常的处理。
+ * 为满足多样的需求，在Resources里面对ClassLoaderWrapper进行了封装
  */
 public class Resources {
 

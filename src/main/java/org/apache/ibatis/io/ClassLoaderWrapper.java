@@ -22,6 +22,9 @@ import java.net.URL;
  * A class to wrap access to multiple class loaders making them work as one
  *
  * @author Clinton Begin
+ * 封装了ClassLoader以及读取资源文件的相关API。通过调整多个类加载器的使用顺序，它可以确保返回给系统使用的是正确的类加载器。
+ * 使用ClassLoaderWrapper就像使用ClassLoader对象，ClassLoaderWrapper会按照指定的顺序依次检测其中封装的ClassLoader对象，
+ * 并从中选取第一个可用的ClassLoader完成相关功能
  */
 public class ClassLoaderWrapper {
 

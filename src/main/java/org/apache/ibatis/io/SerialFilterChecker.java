@@ -20,11 +20,15 @@ import java.security.Security;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
+/**
+ * 串行筛选器检查器
+ */
 public final class SerialFilterChecker {
   private static final Log log = LogFactory.getLog(SerialFilterChecker.class);
   /* Property key for the JEP-290 serialization filters */
   private static final String JDK_SERIAL_FILTER = "jdk.serialFilter";
   private static final boolean SERIAL_FILTER_MISSING;
+  // 首次调用
   private static boolean firstInvocation = true;
 
   static {
