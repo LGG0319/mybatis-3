@@ -29,6 +29,7 @@ import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 
 /**
  * @author Clinton Begin
+ * 通过MetaObject对象解析复杂的表达式来对提供的对象进行操作
  */
 public class MetaObject {
 
