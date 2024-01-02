@@ -1,6 +1,9 @@
 package org.apache.ibatis.debug;
 
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.HashMap;
 
 public interface UserMapper {
 
@@ -19,4 +22,9 @@ public interface UserMapper {
     int insert(@Param("user") User user);
 
     User getById(@Param("id") Integer id);
+
+    HashMap<String, Object> queryForMap(@Param("id") Integer id);
+
+    @MapKey("id")
+    HashMap<String, User> queryForMaps();
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 public class MybatisTest {
     public static void main(String[] args) throws IOException {
@@ -49,8 +50,9 @@ public class MybatisTest {
 //        user04.setId(105);
 //        int deleteUser = mapper.deleteUserInfo(user04);
 //        System.out.println("删除用户结果：" + deleteUser);
-        getUser(sqlSession);
+//        getUser(sqlSession);
 //        insertUser(sqlSession);
+        getUserForMap(sqlSession);
     }
 
     private static void insertUser (SqlSession sqlSession) {
@@ -69,6 +71,18 @@ public class MybatisTest {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         User user = mapper.getById(3);
         System.out.println(user);
+
+        sqlSession.close();
+    }
+
+
+    private static void getUserForMap(SqlSession sqlSession) {
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+//        HashMap<String, Object> map = mapper.queryForMap(3);
+        HashMap<String, User> map = mapper.queryForMaps();
+
+
+        System.out.println(map.get(1));
 
         sqlSession.close();
     }
