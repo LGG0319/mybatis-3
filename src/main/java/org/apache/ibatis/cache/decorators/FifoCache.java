@@ -24,6 +24,7 @@ import org.apache.ibatis.cache.Cache;
  * FIFO (first in, first out) cache decorator.
  *
  * @author Clinton Begin
+ * 先进先出:按对象进入缓存的顺序来移除它们
  */
 public class FifoCache implements Cache {
     // 被装饰的Cache对象

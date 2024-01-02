@@ -28,6 +28,7 @@ import org.apache.ibatis.cache.Cache;
  * Thanks to Dr. Heinz Kabutz for his guidance here.
  *
  * @author Clinton Begin
+ * 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。
  */
 public class WeakCache implements Cache {
   private final Deque<Object> hardLinksToAvoidGarbageCollection;

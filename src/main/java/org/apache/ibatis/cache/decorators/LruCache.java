@@ -25,6 +25,7 @@ import org.apache.ibatis.cache.Cache;
  *
  * @author Clinton Begin
  * 这个装饰器也会限制缓存的大小，其会按照近期最少使用的方法进行缓存的删除
+ * 最近最少使用的:移除最长时间不被使用的对象
  */
 public class LruCache implements Cache {
     // 被修饰的缓存对象

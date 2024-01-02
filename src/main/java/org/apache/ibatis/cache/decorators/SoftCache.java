@@ -28,6 +28,7 @@ import org.apache.ibatis.cache.Cache;
  * Thanks to Dr. Heinz Kabutz for his guidance here.
  *
  * @author Clinton Begin
+ * 软引用:移除基于垃圾回收器状态和软引用规则的对象
  */
 public class SoftCache implements Cache {
   private final Deque<Object> hardLinksToAvoidGarbageCollection;

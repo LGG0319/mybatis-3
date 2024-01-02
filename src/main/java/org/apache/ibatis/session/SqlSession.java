@@ -338,6 +338,7 @@ public interface SqlSession extends Closeable {
    * @return BatchResult list of updated records
    *
    * @since 3.0.6
+   * 更新记录的BatchResult列表
    */
   List<BatchResult> flushStatements();
 

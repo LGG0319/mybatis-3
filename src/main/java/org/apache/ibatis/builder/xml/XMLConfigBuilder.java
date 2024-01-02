@@ -129,9 +129,9 @@ public class XMLConfigBuilder extends BaseBuilder {
       propertiesElement(root.evalNode("properties"));
         // 解析<settings>节点  （setting节点解析会将setting节点的子节点的name和value属性组成键值对，存放到一个Properties对象中）
       Properties settings = settingsAsProperties(root.evalNode("settings"));
-        // 设置Configuration类中vfsImpl字段属性
+        // 设置Configuration类中vfsImpl字段属性(添加自定义虚拟文件系统实现类)
       loadCustomVfsImpl(settings);
-        // 设置Configuration类中logImpl字段属性
+        // 设置Configuration类中logImpl字段属性(添加自定义日志实现类)
       loadCustomLogImpl(settings);
         // 解析<typeAliases>节点  （typeAliass节点的解析，会将我们配置的类型别名进行注册）
       typeAliasesElement(root.evalNode("typeAliases"));
@@ -139,7 +139,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       pluginsElement(root.evalNode("plugins"));
         // 解析<objectFactory>节点
       objectFactoryElement(root.evalNode("objectFactory"));
-        // 解析<objectWrapperFactory>节点
+        // 解析<objectWrapperFactory>节点 (扩展使用，允许用户自定义包装对象ObjectWrapper)
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
         // 解析<reflectorFactory>节点
       reflectorFactoryElement(root.evalNode("reflectorFactory"));

@@ -36,6 +36,9 @@ import java.lang.annotation.Target;
  * @since 3.3.0
  *
  * @author Kazuki Shimizu
+ * 通过Mapper接口调用flush语句
+ * 为批量操作做准备的。必须要将执行器的类型设置为BatchExecutor，（可以通过全局设置和获取Session的时候局部设置），
+ * 并且@Flush标注的方法不能有对应的xml文件。返回值为List
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

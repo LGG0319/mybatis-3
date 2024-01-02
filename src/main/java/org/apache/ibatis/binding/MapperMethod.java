@@ -236,15 +236,18 @@ public class MapperMethod {
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
         // 获取方法名称
       final String methodName = method.getName();
-        // 获取MappedStatement对象
+        // 获取MappedStatement对象(method所在的类)
       final Class<?> declaringClass = method.getDeclaringClass();
+        // 通过全限定类型名和方法名字从Configuration里面获取MappedStatement
       MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass, configuration);
+        // 如果ms是null。使用Flush的前提是不要写MapperStatement。
       if (ms == null) {
           // 处理@Flush注解
         if (method.getAnnotation(Flush.class) == null) {
           throw new BindingException(
               "Invalid bound statement (not found): " + mapperInterface.getName() + "." + methodName);
         }
+          //此次查询的类型就是FLUSH。
         name = null;
         type = SqlCommandType.FLUSH;
       } else {

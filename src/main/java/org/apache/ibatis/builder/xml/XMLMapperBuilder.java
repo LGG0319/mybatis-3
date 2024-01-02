@@ -241,15 +241,17 @@ public class XMLMapperBuilder extends BaseBuilder {
       String type = context.getStringAttribute("type", "PERPETUAL");
         // 通过别名获取对应的类型
       Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
-        // 获取eviction属性  默认为LRU
+        // 获取eviction属性(缓存回收策略)  默认为LRU（最近最少使用策略）
       String eviction = context.getStringAttribute("eviction", "LRU");
         // 获取eviction别名对应的类型
       Class<? extends Cache> evictionClass = typeAliasRegistry.resolveAlias(eviction);
-        // 获取flushInterval属性
+        // 获取flushInterval属性（刷新间隔） 任意正整数，毫秒形式的时间段。默认不设置，缓存仅仅调用语句时刷新
       Long flushInterval = context.getLongAttribute("flushInterval");
-        // 获取size属性
+        // 获取size属性（引用数目） 任意正整数，要记住你缓存的对象数目和你运行环境的可用内存资源数目。默认值是1024
       Integer size = context.getIntAttribute("size");
         // 获取redaOnly属性  默认为false
+        // 只读的缓存会给所有调用者返回缓存对象的相同实例。因此这些对象不能被修改。这提供了很重要的性能优势。
+        // 可读写的缓存会返回缓存对象的拷贝（通过序列化）这会慢一些，但是安全
       boolean readWrite = !context.getBooleanAttribute("readOnly", false);
         // 获取blocking属性  默认为false
       boolean blocking = context.getBooleanAttribute("blocking", false);

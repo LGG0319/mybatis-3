@@ -93,6 +93,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 /**
  * @author Clinton Begin
  * @author Kazuki Shimizu
+ * 解析指定的mapper接口对应的Class对象中，包含的所有mybatis框架中定义的注解，并生成Cache、ResultMap、MappedStatement三种类型对象
  */
 public class MapperAnnotationBuilder {
 
