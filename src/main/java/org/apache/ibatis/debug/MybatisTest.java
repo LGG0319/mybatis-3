@@ -21,11 +21,11 @@ public class MybatisTest {
         // 获取sqlSession
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
-//        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         // 查询用户
-//        User user02 = mapper.selectUserById("101");
-//
-//        System.out.println("user02: " + user02);
+        User user02 = mapper.selectUserById("3");
+
+        System.out.println("user02: " + user02);
 
 //         新增用户
 //        User user = new User();
@@ -52,13 +52,13 @@ public class MybatisTest {
 //        System.out.println("删除用户结果：" + deleteUser);
 //        getUser(sqlSession);
 //        insertUser(sqlSession);
-        getUserForMap(sqlSession);
+//        getUserForMap(sqlSession);
     }
 
     private static void insertUser (SqlSession sqlSession) {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         User user = new User();
-        user.setId(3);
+        user.setId(2);
         user.setName("张三");
         user.setRole(Arrays.asList(1, 2));
         mapper.insert(user);

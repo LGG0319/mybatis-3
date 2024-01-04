@@ -83,7 +83,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     String parameterType = context.getStringAttribute("parameterType");
       // 获取parameterType类型
     Class<?> parameterTypeClass = resolveClass(parameterType);
-      // 获取lang属性
+      // 获取lang属性(自定义的语言驱动，用于在动态 SQL 中的插入脚本语言，修改ParameterHandler与SqlSource的实现)
     String lang = context.getStringAttribute("lang");
       // 获取LanguageDriver对象
     LanguageDriver langDriver = getLanguageDriver(lang);

@@ -35,7 +35,12 @@
     <select id="selectUserById" resultType="org.apache.ibatis.debug.User">
         select *
         from user
-        where id = #{id}
+        <where>
+            <if test="id != null" >
+                and id = #{id}
+           </if>
+        </where>
+
     </select>
 
     <insert id="insertUserInfo" parameterType="org.apache.ibatis.debug.User">
