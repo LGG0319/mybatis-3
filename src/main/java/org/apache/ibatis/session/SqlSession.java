@@ -369,6 +369,7 @@ public interface SqlSession extends Closeable {
    *          Mapper interface class
    *
    * @return a mapper bound to this SqlSession
+   * 绑定到此SqlSession的mapper
    */
   <T> T getMapper(Class<T> type);
 

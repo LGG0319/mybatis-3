@@ -29,6 +29,8 @@ import org.apache.ibatis.transaction.Transaction;
 
 /**
  * @author Clinton Begin
+ * 主要定义类关于CRUD、数据库事务、数据库刷新等相关操作
+ * 解析SQL请求首先会经过的第一道关卡，主要作用在于创建缓存，管理StatementHandler的调用，为StatementHandler提供Configuration环境等
  */
 public interface Executor {
 

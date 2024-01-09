@@ -24,6 +24,7 @@ import org.apache.ibatis.cursor.Cursor;
 
 /**
  * @author Clinton Begin
+ * 处理结果映射
  */
 public interface ResultSetHandler {
 

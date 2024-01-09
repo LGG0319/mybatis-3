@@ -25,7 +25,7 @@ import org.apache.ibatis.session.SqlSession;
 
 /**
  * @author Lasse Voss
- * 映射器代理类的对象工厂,主要功能就是用来创建mapper代理对象
+ * 映射器代理类的对象工厂,主要功能就是用来创建mapper代理对象 （创建时只传入接口信息，method信息调用时传入）
  */
 public class MapperProxyFactory<T> {
 

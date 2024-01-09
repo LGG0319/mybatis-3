@@ -42,6 +42,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     this.configuration = configuration;
   }
 
+  // 从数据源打开一个sqlSession  ExecutorType.SIMPLE(默认值)
   @Override
   public SqlSession openSession() {
     return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
@@ -87,14 +88,20 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     return configuration;
   }
 
+  // 从数据源打开一个sqlSession
   private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level,
       boolean autoCommit) {
     Transaction tx = null;
     try {
+        // 从configuration获取环境信息
       final Environment environment = configuration.getEnvironment();
+        // 根据环境信息换取事务工厂
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+        // 创建事务
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
+        // 根据事务工厂和默认的执行器类型创建执行器（执行拦截器《插件实现》）
       final Executor executor = configuration.newExecutor(tx, execType);
+        // 返回sqlSession
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {
       closeTransaction(tx); // may have fetched a connection so lets call close()

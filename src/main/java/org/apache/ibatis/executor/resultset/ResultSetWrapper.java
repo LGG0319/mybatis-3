@@ -38,13 +38,19 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 
 /**
  * @author Iwao AVE!
+ * 结果集的包装器，主要针对结果集进行的一层包装
  */
 public class ResultSetWrapper {
-
+    // Java JDBC ResultSet接口表示数据库查询的结果。
+    // 有关查询的文本显示了如何将查询结果作为java.sql.ResultSet返回。 然后迭代此ResultSet以检查结果
   private final ResultSet resultSet;
+    //  类型注册器，TypeHandlerRegistry 在初始化的时候会把所有的 Java类型和类型转换器进行注册
   private final TypeHandlerRegistry typeHandlerRegistry;
+    // 字段的名称，也就是查询操作需要返回的字段名称
   private final List<String> columnNames = new ArrayList<>();
+    // 字段的类型名称，也就是 ColumnNames 每个字段名称的类型
   private final List<String> classNames = new ArrayList<>();
+    // JDBC 的类型，也就是java.sql.Types 类型
   private final List<JdbcType> jdbcTypes = new ArrayList<>();
   private final Map<String, Map<Class<?>, TypeHandler<?>>> typeHandlerMap = new HashMap<>();
   private final Map<String, Set<String>> mappedColumnNamesMap = new HashMap<>();

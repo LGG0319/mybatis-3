@@ -61,27 +61,39 @@ public class DefaultParameterHandler implements ParameterHandler {
   @Override
   public void setParameters(PreparedStatement ps) {
     ErrorContext.instance().activity("setting parameters").object(mappedStatement.getParameterMap().getId());
+      // parameterMappings 就是对 #{} 或者 ${} 里面参数的封装
     List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
     if (parameterMappings != null) {
       MetaObject metaObject = null;
+        // 如果是参数化的SQL，便需要循环取出并设置参数的值
       for (int i = 0; i < parameterMappings.size(); i++) {
         ParameterMapping parameterMapping = parameterMappings.get(i);
+          // 如果参数类型不是 OUT ，这个类型与 CallableStatementHandler 有关
+          // 因为存储过程不存在输出参数，所以参数不是输出参数的时候，就需要设置。
         if (parameterMapping.getMode() != ParameterMode.OUT) {
           Object value;
+            // 得到#{}  中的属性名
           String propertyName = parameterMapping.getProperty();
+            // 如果 propertyName 是 Map 中的key
           if (boundSql.hasAdditionalParameter(propertyName)) { // issue #448 ask first for additional params
-            value = boundSql.getAdditionalParameter(propertyName);
+              // 通过key 来得到 additionalParameter 中的value值
+              value = boundSql.getAdditionalParameter(propertyName);
+              // 如果不是 additionalParameters 中的key，而且传入参数是 null， 则value 就是null
           } else if (parameterObject == null) {
             value = null;
+              // 如果 typeHandlerRegistry 中已经注册了这个参数的 Class对象，即它是Primitive 或者是String 的话
           } else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
             value = parameterObject;
           } else {
+              // 否则就是 Map
             if (metaObject == null) {
               metaObject = configuration.newMetaObject(parameterObject);
             }
             value = metaObject.getValue(propertyName);
           }
+            // 在通过SqlSource 的parse 方法得到parameterMappings 的具体实现中，我们会得到parameterMappings的typeHandler
           TypeHandler typeHandler = parameterMapping.getTypeHandler();
+            // 获取typeHandler 的jdbc type
           JdbcType jdbcType = parameterMapping.getJdbcType();
           if (value == null && jdbcType == null) {
             jdbcType = configuration.getJdbcTypeForNull();

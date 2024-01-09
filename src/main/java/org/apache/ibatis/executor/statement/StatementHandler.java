@@ -27,6 +27,8 @@ import org.apache.ibatis.session.ResultHandler;
 
 /**
  * @author Clinton Begin
+ * 专门处理数据库汇报的组件，封装了JDBC Statement操作，负责对JDBC statement 的操作
+ * 最主要的作用在于创建Statement对象与数据库进行交流，还会使用ParameterHandler进行参数配置，使用ResultSetHandler把查询结果与实体类进行绑定
  */
 public interface StatementHandler {
 

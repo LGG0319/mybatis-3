@@ -286,6 +286,7 @@ public class DefaultSqlSession implements SqlSession {
     return configuration;
   }
 
+  // 通过configuration中的mapperRegistry获取（MapperProxyFactory：生产mapper代理对象）knowMappers中获取相关Mapper信息
   @Override
   public <T> T getMapper(Class<T> type) {
     return configuration.getMapper(type, this);
