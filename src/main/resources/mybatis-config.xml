@@ -18,11 +18,19 @@
 
     <typeAliases>
         <typeAlias type="org.apache.ibatis.debug.typehandler.RoleTypeHandler" alias="roleTypeHandler"/>
+        <typeAlias type="org.apache.ibatis.debug.plugin.MyPlugin" alias="myPlugin"/>
     </typeAliases>
+
     <!--自定义类型处理器-->
     <typeHandlers>
             <typeHandler handler="roleTypeHandler"/>
     </typeHandlers>
+
+    <!--自定义插件-->
+    <plugins>
+        <plugin interceptor="myPlugin"/>
+    </plugins>
+
     <!--数据库连接环境设置-->
     <environments default="development">
         <environment id="development">
@@ -39,4 +47,5 @@
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
+
 </configuration>

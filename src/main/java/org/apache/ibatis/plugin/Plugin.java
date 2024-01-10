@@ -42,10 +42,14 @@ public class Plugin implements InvocationHandler {
   }
 
   public static Object wrap(Object target, Interceptor interceptor) {
+      //  获取注解的@signature的定义
     Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
+      // 目标类
     Class<?> type = target.getClass();
+      //  获取需要拦截的接口
     Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
     if (interfaces.length > 0) {
+        // 生成代理对象
       return Proxy.newProxyInstance(type.getClassLoader(), interfaces, new Plugin(target, interceptor, signatureMap));
     }
     return target;
@@ -54,10 +58,14 @@ public class Plugin implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
+        // 获取@signature标注的方法
       Set<Method> methods = signatureMap.get(method.getDeclaringClass());
+        // 如果这个方法被拦截了
       if (methods != null && methods.contains(method)) {
+          // 直接执行插件的intercept()这个方法
         return interceptor.intercept(new Invocation(target, method, args));
       }
+        // 没有被拦截，执行原方法
       return method.invoke(target, args);
     } catch (Exception e) {
       throw ExceptionUtil.unwrapThrowable(e);

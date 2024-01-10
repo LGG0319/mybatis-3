@@ -30,6 +30,7 @@ import org.apache.ibatis.session.Configuration;
 
 /**
  * @author Clinton Begin
+ * Mybatis 框架的核心类之一，它存储了一个 sql 对应的所有信息
  */
 public final class MappedStatement {
 
