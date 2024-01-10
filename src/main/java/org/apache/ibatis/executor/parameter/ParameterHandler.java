@@ -23,7 +23,7 @@ import java.sql.SQLException;
  *
  * @author Clinton Begin
  * 参数处理器
- * 负责为 PreparedStatement 的 sal 语句参数动态赋值
+ * 负责为 PreparedStatement 的 sql 语句参数动态赋值
  */
 public interface ParameterHandler {
 

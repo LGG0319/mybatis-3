@@ -31,9 +31,9 @@ import org.apache.ibatis.session.ResultHandler;
  * 最主要的作用在于创建Statement对象与数据库进行交流，还会使用ParameterHandler进行参数配置，使用ResultSetHandler把查询结果与实体类进行绑定
  */
 public interface StatementHandler {
-
+    // 声明Statement,通过JDBC中的Connection声明
   Statement prepare(Connection connection, Integer transactionTimeout) throws SQLException;
-
+    // 设置参数，只有JDBC中PreparedStatement 才有该行为
   void parameterize(Statement statement) throws SQLException;
 
   void batch(Statement statement) throws SQLException;
@@ -41,11 +41,11 @@ public interface StatementHandler {
   int update(Statement statement) throws SQLException;
 
   <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException;
-
+    // 游标查询
   <E> Cursor<E> queryCursor(Statement statement) throws SQLException;
-
+    // 获取当前操作的动态SQL
   BoundSql getBoundSql();
-
+    // 获取当前操作的参数处理器
   ParameterHandler getParameterHandler();
 
 }
