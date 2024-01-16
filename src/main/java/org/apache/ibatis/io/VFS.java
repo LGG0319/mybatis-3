@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,49 +28,42 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
 /**
- * Provides a very simple API for accessing resources within an application server.
- * 提供一个非常简单的API，用于访问应用程序服务器中的资源
+ * Provides a very simple API for accessing resources within an application server. 提供一个非常简单的API，用于访问应用程序服务器中的资源 VFS
+ * (虚拟文件系统) 1. VFS是虚拟文件系统通用API，不需关心什么存储媒介 2. 优先使用自定义实现VFS，最后使用mybatis内置的JBoss6VFS和DefaultVFS 3.
+ * 利用静态内部类VFSHolder实现单例，根据顺序自定义实现VFS> 内置原则，实例VFS 子类需要实现只有两个方法： 1.isValid()是否有效 2.list(URL url, String forPath)
+ * 列出某个path对应URL的所有子资源，递归获取
  *
- * VFS (虚拟文件系统)
- *      1. VFS是虚拟文件系统通用API，不需关心什么存储媒介
- *      2. 优先使用自定义实现VFS，最后使用mybatis内置的JBoss6VFS和DefaultVFS
- *      3. 利用静态内部类VFSHolder实现单例，根据顺序自定义实现VFS> 内置原则，实例VFS
- *
- * 子类需要实现只有两个方法：
- *      1.isValid()是否有效
- *      2.list(URL url, String forPath) 列出某个path对应URL的所有子资源，递归获取
  * @author Ben Gunter
  */
 public abstract class VFS {
   private static final Log log = LogFactory.getLog(VFS.class);
 
   /** The built-in implementations. */
-    // 内置实现JBoss6VFS和DefaultVFS
+  // 内置实现JBoss6VFS和DefaultVFS
   public static final Class<?>[] IMPLEMENTATIONS = { JBoss6VFS.class, DefaultVFS.class };
 
   /**
-   * The list to which implementations are added by {@link #addImplClass(Class)}.
-   * 用户实现的VFS的类
+   * The list to which implementations are added by {@link #addImplClass(Class)}. 用户实现的VFS的类
    */
   public static final List<Class<? extends VFS>> USER_IMPLEMENTATIONS = new ArrayList<>();
 
   /** Singleton instance holder. */
   // 创建一个单例VFS容器
   private static class VFSHolder {
-      // 创建一个单例对象
+    // 创建一个单例对象
     static final VFS INSTANCE = createVFS();
 
     @SuppressWarnings("unchecked")
     static VFS createVFS() {
       // Try the user implementations first, then the built-ins
-        // 先加入用户自定义的
-        // 加载mybatis内置实现的
+      // 先加入用户自定义的
+      // 加载mybatis内置实现的
       List<Class<? extends VFS>> impls = new ArrayList<>(USER_IMPLEMENTATIONS);
       impls.addAll(Arrays.asList((Class<? extends VFS>[]) IMPLEMENTATIONS));
 
       // Try each implementation class until a valid one is found
-        // 循环遍历，直到找到有效VFS实现类
-        // 获取VFS实现类
+      // 循环遍历，直到找到有效VFS实现类
+      // 获取VFS实现类
       VFS vfs = null;
       for (int i = 0; vfs == null || !vfs.isValid(); i++) {
         Class<? extends VFS> impl = impls.get(i);

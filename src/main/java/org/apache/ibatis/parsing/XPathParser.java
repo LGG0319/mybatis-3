@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -46,15 +46,15 @@ import org.xml.sax.SAXParseException;
  */
 public class XPathParser {
 
-    // Document对象
+  // Document对象
   private final Document document;
-    // 是否校验xml
+  // 是否校验xml
   private boolean validation;
-    // 用于解析实体(用于解析本地DTD或XSD)
+  // 用于解析实体(用于解析本地DTD或XSD)
   private EntityResolver entityResolver;
-    //  variables 属性(配置文件中配置的properties)
+  // variables 属性(配置文件中配置的properties)
   private Properties variables;
-    // Xpath对象
+  // Xpath对象
   private XPath xpath;
 
   public XPathParser(String xml) {
@@ -234,20 +234,20 @@ public class XPathParser {
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
     try {
-        // 创建DocumentBuilderFactory对象
+      // 创建DocumentBuilderFactory对象
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        // 是否校验
+      // 是否校验
       factory.setValidating(validation);
-        // 设置其他一些属性
+      // 设置其他一些属性
       factory.setNamespaceAware(false);
       factory.setIgnoringComments(true);
       factory.setIgnoringElementContentWhitespace(false);
       factory.setCoalescing(false);
       factory.setExpandEntityReferences(true);
-        // 创建DocumentBuilder对象
+      // 创建DocumentBuilder对象
       DocumentBuilder builder = factory.newDocumentBuilder();
-        // 设置EntityResolver
+      // 设置EntityResolver
       builder.setEntityResolver(entityResolver);
       builder.setErrorHandler(new ErrorHandler() {
         @Override
@@ -265,7 +265,7 @@ public class XPathParser {
           // NOP
         }
       });
-        // 创建Document对象并返回
+      // 创建Document对象并返回
       return builder.parse(inputSource);
     } catch (Exception e) {
       throw new BuilderException("Error creating document instance.  Cause: " + e, e);

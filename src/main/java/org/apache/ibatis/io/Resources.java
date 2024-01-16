@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,9 +28,7 @@ import java.util.Properties;
 /**
  * A class to simplify access to resources through the classloader.
  *
- * @author Clinton Begin
- * MyBatis提供了多个静态方法的工具类，有些方法中做了一些异常的处理。
- * 为满足多样的需求，在Resources里面对ClassLoaderWrapper进行了封装
+ * @author Clinton Begin MyBatis提供了多个静态方法的工具类，有些方法中做了一些异常的处理。 为满足多样的需求，在Resources里面对ClassLoaderWrapper进行了封装
  */
 public class Resources {
 

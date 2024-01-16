@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -72,9 +72,7 @@ import org.apache.ibatis.util.MapUtil;
  * @author Clinton Begin
  * @author Eduardo Macarron
  * @author Iwao AVE!
- * @author Kazuki Shimizu
- * 1.处理 Statement 执行后产生的结果集，生成结果列表
- * 2.处理存储过程执行后的输出参数
+ * @author Kazuki Shimizu 1.处理 Statement 执行后产生的结果集，生成结果列表 2.处理存储过程执行后的输出参数
  */
 public class DefaultResultSetHandler implements ResultSetHandler {
 
@@ -192,27 +190,27 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
 
     final List<Object> multipleResults = new ArrayList<>();
-      // 获取第一个结果集
+    // 获取第一个结果集
     int resultSetCount = 0;
     ResultSetWrapper rsw = getFirstResultSet(stmt);
-      // 获取结果映射
+    // 获取结果映射
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
-      // 结果映射的大小
+    // 结果映射的大小
     int resultMapCount = resultMaps.size();
-      // 校验结果映射的数量
+    // 校验结果映射的数量
     validateResultMapsCount(rsw, resultMapCount);
-      // 如果ResultSet 包装器不是null， 并且 resultmap 的数量  >  resultSet 的数量的话
-      // 因为 resultSetCount 第一次肯定是0，所以直接判断 ResultSetWrapper 是否为 0 即可
+    // 如果ResultSet 包装器不是null， 并且 resultmap 的数量 > resultSet 的数量的话
+    // 因为 resultSetCount 第一次肯定是0，所以直接判断 ResultSetWrapper 是否为 0 即可
     while (rsw != null && resultMapCount > resultSetCount) {
-        // 从 resultMap 中取出 resultSet 数量
+      // 从 resultMap 中取出 resultSet 数量
       ResultMap resultMap = resultMaps.get(resultSetCount);
-        // 处理结果集, 关闭结果集
+      // 处理结果集, 关闭结果集
       handleResultSet(rsw, resultMap, multipleResults, null);
       rsw = getNextResultSet(stmt);
       cleanUpAfterHandlingResultSet();
       resultSetCount++;
     }
-      // 从 mappedStatement 取出结果集
+    // 从 mappedStatement 取出结果集
     String[] resultSets = mappedStatement.getResultSets();
     if (resultSets != null) {
       while (rsw != null && resultSetCount < resultSets.length) {
@@ -312,7 +310,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
       ResultMapping parentMapping) throws SQLException {
     try {
       if (parentMapping != null) {
-          // 处理多行结果的值
+        // 处理多行结果的值
         handleRowValues(rsw, resultMap, null, RowBounds.DEFAULT, parentMapping);
       } else if (resultHandler == null) {
         DefaultResultHandler defaultResultHandler = new DefaultResultHandler(objectFactory);
@@ -336,10 +334,10 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   //
   // HANDLE ROWS FOR SIMPLE RESULTMAP
   //
-    // 如果有嵌套的ResultMap 的话
-    // 确保没有行绑定
-    // 检查结果处理器
-    // 如果没有的话，直接处理简单的ResultMap
+  // 如果有嵌套的ResultMap 的话
+  // 确保没有行绑定
+  // 检查结果处理器
+  // 如果没有的话，直接处理简单的ResultMap
   public void handleRowValues(ResultSetWrapper rsw, ResultMap resultMap, ResultHandler<?> resultHandler,
       RowBounds rowBounds, ResultMapping parentMapping) throws SQLException {
     if (resultMap.hasNestedResultMaps()) {

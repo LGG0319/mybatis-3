@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -63,10 +63,10 @@ public class XMLScriptBuilder extends BaseBuilder {
   }
 
   public SqlSource parseScriptNode() {
-      // 判断是否为动态sql并获取MixedSqlNode
+    // 判断是否为动态sql并获取MixedSqlNode
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
     SqlSource sqlSource;
-      // 判断是否为动态sql
+    // 判断是否为动态sql
     if (isDynamic) {
       sqlSource = new DynamicSqlSource(configuration, rootSqlNode);
     } else {
@@ -77,16 +77,16 @@ public class XMLScriptBuilder extends BaseBuilder {
 
   protected MixedSqlNode parseDynamicTags(XNode node) {
     List<SqlNode> contents = new ArrayList<>();
-      // 获取子标签
+    // 获取子标签
     NodeList children = node.getNode().getChildNodes();
-      // 遍历子标签
+    // 遍历子标签
     for (int i = 0; i < children.getLength(); i++) {
-        // 创建XNode对象
+      // 创建XNode对象
       XNode child = node.newXNode(children.item(i));
       if (child.getNode().getNodeType() == Node.CDATA_SECTION_NODE || child.getNode().getNodeType() == Node.TEXT_NODE) {
         String data = child.getStringBody("");
         TextSqlNode textSqlNode = new TextSqlNode(data);
-          // 判断是否为动态sql  包含${}判定为动态sql
+        // 判断是否为动态sql 包含${}判定为动态sql
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
           isDynamic = true;
@@ -94,21 +94,21 @@ public class XMLScriptBuilder extends BaseBuilder {
           contents.add(new StaticTextSqlNode(data));
         }
       } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628
-          // 如果是动态sql标签则是动态sql
+        // 如果是动态sql标签则是动态sql
         String nodeName = child.getNode().getNodeName();
-          // 通过节点名称获取对应的NodeHandler对象
+        // 通过节点名称获取对应的NodeHandler对象
         NodeHandler handler = nodeHandlerMap.get(nodeName);
-          // NodeHandler不存在  抛出异常
+        // NodeHandler不存在 抛出异常
         if (handler == null) {
           throw new BuilderException("Unknown element <" + nodeName + "> in SQL statement.");
         }
-          // 会创建对应的SqlNode对象添加到列表中
+        // 会创建对应的SqlNode对象添加到列表中
         handler.handleNode(child, contents);
-          // 标记为是动态sql
+        // 标记为是动态sql
         isDynamic = true;
       }
     }
-      // 创建MixedSqlNode对象并返回
+    // 创建MixedSqlNode对象并返回
     return new MixedSqlNode(contents);
   }
 

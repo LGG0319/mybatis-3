@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,8 +21,9 @@ import java.lang.reflect.InvocationTargetException;
  * @author Clinton Begin
  */
 public interface Invoker {
-    // 执行Field或者Method
+  // 执行Field或者Method
   Object invoke(Object target, Object[] args) throws IllegalAccessException, InvocationTargetException;
-    // 返回属性相应的类型
+
+  // 返回属性相应的类型
   Class<?> getType();
 }

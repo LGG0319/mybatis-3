@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class SqlSessionFactoryBuilder {
 
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
-        // 创建XMLConfigBuilder对象,用来解析mybatis配置文件生成Configration对象（Configration对象中包含mybatis所需所有配置信息）
+      // 创建XMLConfigBuilder对象,用来解析mybatis配置文件生成Configration对象（Configration对象中包含mybatis所需所有配置信息）
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);
       return build(parser.parse());
     } catch (Exception e) {

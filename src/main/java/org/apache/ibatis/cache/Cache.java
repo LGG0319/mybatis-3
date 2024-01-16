@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,15 +36,13 @@ import java.util.concurrent.locks.ReadWriteLock;
  * }
  * </pre>
  *
- * @author Clinton Begin
- * 缓存的顶层接口，定义了缓存应该具有的功能
+ * @author Clinton Begin 缓存的顶层接口，定义了缓存应该具有的功能
  */
 
 public interface Cache {
 
   /**
-   * @return The identifier of this cache
-   * // 获取缓存对象的id
+   * @return The identifier of this cache // 获取缓存对象的id
    */
   String getId();
 
@@ -52,8 +50,7 @@ public interface Cache {
    * @param key
    *          Can be any object but usually it is a {@link CacheKey}
    * @param value
-   *          The result of a select.
-   * 向缓存中添加数据 key是CacheKey对象 value是查询结果
+   *          The result of a select. 向缓存中添加数据 key是CacheKey对象 value是查询结果
    */
   void putObject(Object key, Object value);
 
@@ -61,8 +58,7 @@ public interface Cache {
    * @param key
    *          The key
    *
-   * @return The object stored in the cache.
-   * 查询缓存
+   * @return The object stored in the cache. 查询缓存
    */
   Object getObject(Object key);
 
@@ -75,22 +71,19 @@ public interface Cache {
    * @param key
    *          The key
    *
-   * @return Not used
-   * 删除缓存
+   * @return Not used 删除缓存
    */
   Object removeObject(Object key);
 
   /**
-   * Clears this cache instance.
-   * 清空缓存
+   * Clears this cache instance. 清空缓存
    */
   void clear();
 
   /**
    * Optional. This method is not called by the core.
    *
-   * @return The number of elements stored in the cache (not its capacity).
-   * 获取缓存的数量
+   * @return The number of elements stored in the cache (not its capacity). 获取缓存的数量
    */
   int getSize();
 

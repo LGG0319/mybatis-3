@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -53,38 +53,38 @@ public class ParamNameResolver {
    * 记录方法的参数位置和值的关系
    */
   private final SortedMap<Integer, String> names;
-    // 记录是否使用了@Param注解
+  // 记录是否使用了@Param注解
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
     this.useActualParamName = config.isUseActualParamName();
-      // 获取参数
+    // 获取参数
     final Class<?>[] paramTypes = method.getParameterTypes();
-      // 获取参数的注解列表
+    // 获取参数的注解列表
     final Annotation[][] paramAnnotations = method.getParameterAnnotations();
     final SortedMap<Integer, String> map = new TreeMap<>();
-      // 参数数量
+    // 参数数量
     int paramCount = paramAnnotations.length;
     // get names from @Param annotations
-      // 遍历参数
+    // 遍历参数
     for (int paramIndex = 0; paramIndex < paramCount; paramIndex++) {
-        // 如果是特殊类型则跳过
+      // 如果是特殊类型则跳过
       if (isSpecialParameter(paramTypes[paramIndex])) {
         // skip special parameters
         continue;
       }
       String name = null;
-        // 遍历参数上的注解
+      // 遍历参数上的注解
       for (Annotation annotation : paramAnnotations[paramIndex]) {
-          // 如果注解是@Param
+        // 如果注解是@Param
         if (annotation instanceof Param) {
           hasParamAnnotation = true;
-            // 名称取注解指定的值
+          // 名称取注解指定的值
           name = ((Param) annotation).value();
           break;
         }
       }
-        // 如果没有指定则使用方法中定义的参数名
+      // 如果没有指定则使用方法中定义的参数名
       if (name == null) {
         // @Param was not specified.
         if (useActualParamName) {
@@ -128,30 +128,29 @@ public class ParamNameResolver {
    * @param args
    *          the args
    *
-   * @return the named params
-   * 用来将方法接收到的参数同参数名称进行关联
+   * @return the named params 用来将方法接收到的参数同参数名称进行关联
    */
   public Object getNamedParams(Object[] args) {
     final int paramCount = names.size();
-      // 参数列表是否为空  为空返回null
+    // 参数列表是否为空 为空返回null
     if (args == null || paramCount == 0) {
       return null;
     }
     if (!hasParamAnnotation && paramCount == 1) {
-        // 参数长度为1
+      // 参数长度为1
       Object value = args[names.firstKey()];
       return wrapToMapIfCollection(value, useActualParamName ? names.get(names.firstKey()) : null);
     } else {
       final Map<String, Object> param = new ParamMap<>();
       int i = 0;
-        // 遍历参数列表
+      // 遍历参数列表
       for (Map.Entry<Integer, String> entry : names.entrySet()) {
-          // 将参数名作为key   接收的值作为value   放入map中
+        // 将参数名作为key 接收的值作为value 放入map中
         param.put(entry.getValue(), args[entry.getKey()]);
         // add generic param names (param1, param2, ...)
         final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);
         // ensure not to overwrite parameter named with @Param
-          // 如果names不包含参数名 则使用param(i+1)作为参数名
+        // 如果names不包含参数名 则使用param(i+1)作为参数名
         if (!names.containsValue(genericParamName)) {
           param.put(genericParamName, args[entry.getKey()]);
         }

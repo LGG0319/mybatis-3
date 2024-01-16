@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -26,14 +26,14 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.session.ResultHandler;
 
 /**
- * @author Clinton Begin
- * 专门处理数据库汇报的组件，封装了JDBC Statement操作，负责对JDBC statement 的操作
- * 最主要的作用在于创建Statement对象与数据库进行交流，还会使用ParameterHandler进行参数配置，使用ResultSetHandler把查询结果与实体类进行绑定
+ * @author Clinton Begin 专门处理数据库汇报的组件，封装了JDBC Statement操作，负责对JDBC statement 的操作
+ *         最主要的作用在于创建Statement对象与数据库进行交流，还会使用ParameterHandler进行参数配置，使用ResultSetHandler把查询结果与实体类进行绑定
  */
 public interface StatementHandler {
-    // 声明Statement,通过JDBC中的Connection声明
+  // 声明Statement,通过JDBC中的Connection声明
   Statement prepare(Connection connection, Integer transactionTimeout) throws SQLException;
-    // 设置参数，只有JDBC中PreparedStatement 才有该行为
+
+  // 设置参数，只有JDBC中PreparedStatement 才有该行为
   void parameterize(Statement statement) throws SQLException;
 
   void batch(Statement statement) throws SQLException;
@@ -41,11 +41,14 @@ public interface StatementHandler {
   int update(Statement statement) throws SQLException;
 
   <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException;
-    // 游标查询
+
+  // 游标查询
   <E> Cursor<E> queryCursor(Statement statement) throws SQLException;
-    // 获取当前操作的动态SQL
+
+  // 获取当前操作的动态SQL
   BoundSql getBoundSql();
-    // 获取当前操作的参数处理器
+
+  // 获取当前操作的参数处理器
   ParameterHandler getParameterHandler();
 
 }

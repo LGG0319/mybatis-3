@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,34 +29,34 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * @author Clinton Begin
  */
 public class ResultMapping {
-    // Configuration对象
+  // Configuration对象
   private Configuration configuration;
-    // property属性
+  // property属性
   private String property;
-    // column属性
+  // column属性
   private String column;
-    // 字段对应的Java类型 javaType属性指定
+  // 字段对应的Java类型 javaType属性指定
   private Class<?> javaType;
-    // 字段对应的jdbc类型  jdbcType属性指定
+  // 字段对应的jdbc类型 jdbcType属性指定
   private JdbcType jdbcType;
-    // 类型转换器   typeHandler属性
+  // 类型转换器 typeHandler属性
   private TypeHandler<?> typeHandler;
-    // 这个是通过resultMap属性解析出的值
+  // 这个是通过resultMap属性解析出的值
   private String nestedResultMapId;
-    // select属性解析出的值
+  // select属性解析出的值
   private String nestedQueryId;
-    // notNullColumn属性解析的值
+  // notNullColumn属性解析的值
   private Set<String> notNullColumns;
-    // columnPrefix属性
+  // columnPrefix属性
   private String columnPrefix;
-    // 标记  用来记录是否为 constructor和id节点
+  // 标记 用来记录是否为 constructor和id节点
   private List<ResultFlag> flags;
   private List<ResultMapping> composites;
-    // resultSet属性
+  // resultSet属性
   private String resultSet;
-    // foreignColumn属性
+  // foreignColumn属性
   private String foreignColumn;
-    // 是否懒加载
+  // 是否懒加载
   private boolean lazy;
 
   ResultMapping() {

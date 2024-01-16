@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,15 +23,14 @@ import org.apache.ibatis.cache.Cache;
 /**
  * FIFO (first in, first out) cache decorator.
  *
- * @author Clinton Begin
- * 先进先出:按对象进入缓存的顺序来移除它们
+ * @author Clinton Begin 先进先出:按对象进入缓存的顺序来移除它们
  */
 public class FifoCache implements Cache {
-    // 被装饰的Cache对象
+  // 被装饰的Cache对象
   private final Cache delegate;
-    // 记录key进入缓存的顺序
+  // 记录key进入缓存的顺序
   private final Deque<Object> keyList;
-    // 缓存项的最大数量
+  // 缓存项的最大数量
   private int size;
 
   public FifoCache(Cache delegate) {
@@ -56,7 +55,7 @@ public class FifoCache implements Cache {
 
   @Override
   public void putObject(Object key, Object value) {
-      // 判断是否超过大小   并清理之前的缓存
+    // 判断是否超过大小 并清理之前的缓存
     cycleKeyList(key);
     delegate.putObject(key, value);
   }
@@ -79,12 +78,12 @@ public class FifoCache implements Cache {
   }
 
   private void cycleKeyList(Object key) {
-      // 添加到尾部
+    // 添加到尾部
     keyList.addLast(key);
     if (keyList.size() > size) {
-        // 从头部移除
+      // 从头部移除
       Object oldestKey = keyList.removeFirst();
-        // 从缓存中删除
+      // 从缓存中删除
       delegate.removeObject(oldestKey);
     }
   }

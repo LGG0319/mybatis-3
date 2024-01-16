@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,15 +22,14 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 
 /**
- * @author Clinton Begin
- * Cache接口的基本实现，使用的是一个Map实现了缓存的功能
+ * @author Clinton Begin Cache接口的基本实现，使用的是一个Map实现了缓存的功能
  */
 public class PerpetualCache implements Cache {
 
-    // 缓存的标识
+  // 缓存的标识
   private final String id;
 
-    // 存储缓存的map
+  // 存储缓存的map
   private final Map<Object, Object> cache = new HashMap<>();
 
   public PerpetualCache(String id) {

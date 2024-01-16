@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,9 +41,9 @@ public class XMLLanguageDriver implements LanguageDriver {
 
   @Override
   public SqlSource createSqlSource(Configuration configuration, XNode script, Class<?> parameterType) {
-      // 创建XMLScriptBuilder对象
+    // 创建XMLScriptBuilder对象
     XMLScriptBuilder builder = new XMLScriptBuilder(configuration, script, parameterType);
-      // 调用XMLScriptBuilder.parseScriptNode方法创建SqlSource对象
+    // 调用XMLScriptBuilder.parseScriptNode方法创建SqlSource对象
     return builder.parseScriptNode();
   }
 

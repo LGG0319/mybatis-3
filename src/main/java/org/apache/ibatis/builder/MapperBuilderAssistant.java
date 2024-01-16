@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -50,18 +50,17 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
- * @author Clinton Begin
- * 映射文件解析的一个辅助类
+ * @author Clinton Begin 映射文件解析的一个辅助类
  */
 public class MapperBuilderAssistant extends BaseBuilder {
 
-    // 命名空间
+  // 命名空间
   private String currentNamespace;
-    // 映射文件地址
+  // 映射文件地址
   private final String resource;
-    // 二级缓存
+  // 二级缓存
   private Cache currentCache;
-    // 是否未解析chche-ref标记
+  // 是否未解析chche-ref标记
   private boolean unresolvedCacheRef; // issue #676
 
   public MapperBuilderAssistant(Configuration configuration, String resource) {
@@ -114,9 +113,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
     }
     try {
       unresolvedCacheRef = true;
-        // 从configuration中通过命名空间获取Cache
+      // 从configuration中通过命名空间获取Cache
       Cache cache = configuration.getCache(namespace);
-        // 如果不存在抛出异常
+      // 如果不存在抛出异常
       if (cache == null) {
         throw new IncompleteElementException("No cache for namespace '" + namespace + "' could be found.");
       }
@@ -130,13 +129,13 @@ public class MapperBuilderAssistant extends BaseBuilder {
 
   public Cache useNewCache(Class<? extends Cache> typeClass, Class<? extends Cache> evictionClass, Long flushInterval,
       Integer size, boolean readWrite, boolean blocking, Properties props) {
-      // 创建Cache对象  namespace作为缓存id
+    // 创建Cache对象 namespace作为缓存id
     Cache cache = new CacheBuilder(currentNamespace).implementation(valueOrDefault(typeClass, PerpetualCache.class))
         .addDecorator(valueOrDefault(evictionClass, LruCache.class)).clearInterval(flushInterval).size(size)
         .readWrite(readWrite).blocking(blocking).properties(props).build();
-      // 将cache添加到configuration中
+    // 将cache添加到configuration中
     configuration.addCache(cache);
-      // 记录当前命名空间使用的cache
+    // 记录当前命名空间使用的cache
     currentCache = cache;
     return cache;
   }
@@ -163,41 +162,41 @@ public class MapperBuilderAssistant extends BaseBuilder {
 
   public ResultMap addResultMap(String id, Class<?> type, String extend, Discriminator discriminator,
       List<ResultMapping> resultMappings, Boolean autoMapping) {
-      // 在id属性前面配置上namespace.作为id
+    // 在id属性前面配置上namespace.作为id
     id = applyCurrentNamespace(id, false);
     extend = applyCurrentNamespace(extend, true);
 
     if (extend != null) {
-        // extend不为空  判断对应的resultMap是否存在
+      // extend不为空 判断对应的resultMap是否存在
       if (!configuration.hasResultMap(extend)) {
         throw new IncompleteElementException("Could not find a parent resultmap with id '" + extend + "'");
       }
-        // 获取extend对应的ResultMap
+      // 获取extend对应的ResultMap
       ResultMap resultMap = configuration.getResultMap(extend);
-        // 获取对应的ResultMapping列表
+      // 获取对应的ResultMapping列表
       List<ResultMapping> extendedResultMappings = new ArrayList<>(resultMap.getResultMappings());
-        // 移除当前resultMap中包含的ResultMapping
+      // 移除当前resultMap中包含的ResultMapping
       extendedResultMappings.removeAll(resultMappings);
       // Remove parent constructor if this resultMap declares a constructor.
       boolean declaresConstructor = false;
       for (ResultMapping resultMapping : resultMappings) {
-          // 判断当前ResultMapping中是否存在CONSTRUCTOR标签的
+        // 判断当前ResultMapping中是否存在CONSTRUCTOR标签的
         if (resultMapping.getFlags().contains(ResultFlag.CONSTRUCTOR)) {
           declaresConstructor = true;
           break;
         }
       }
-        // 如果当前ResultMap中存在CONSTRUCTOR标签的ResultMapping  移除扩展ResultMap中含有CONSTRUCTOR标记的ResultMapping
+      // 如果当前ResultMap中存在CONSTRUCTOR标签的ResultMapping 移除扩展ResultMap中含有CONSTRUCTOR标记的ResultMapping
       if (declaresConstructor) {
         extendedResultMappings.removeIf(resultMapping -> resultMapping.getFlags().contains(ResultFlag.CONSTRUCTOR));
       }
-        // 添加扩展ResultMapping
+      // 添加扩展ResultMapping
       resultMappings.addAll(extendedResultMappings);
     }
-      // 创建ResultMap
+    // 创建ResultMap
     ResultMap resultMap = new ResultMap.Builder(configuration, id, type, resultMappings, autoMapping)
         .discriminator(discriminator).build();
-      // 添加到Configuration.resultMaps属性中
+    // 添加到Configuration.resultMaps属性中
     configuration.addResultMap(resultMap);
     return resultMap;
   }

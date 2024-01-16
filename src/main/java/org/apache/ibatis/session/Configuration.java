@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -699,7 +699,7 @@ public class Configuration {
       BoundSql boundSql) {
     ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement,
         parameterObject, boundSql);
-      // 调用pluginAll方法，生成代理对象
+    // 调用pluginAll方法，生成代理对象
     return (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
   }
 
@@ -707,7 +707,7 @@ public class Configuration {
       ParameterHandler parameterHandler, ResultHandler resultHandler, BoundSql boundSql) {
     ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler,
         resultHandler, boundSql, rowBounds);
-      // 调用pluginAll方法，生成代理对象
+    // 调用pluginAll方法，生成代理对象
     return (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
   }
 
@@ -715,7 +715,7 @@ public class Configuration {
       Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject,
         rowBounds, resultHandler, boundSql);
-      // 调用pluginAll方法，生成代理对象
+    // 调用pluginAll方法，生成代理对象
     return (StatementHandler) interceptorChain.pluginAll(statementHandler);
   }
 
@@ -736,7 +736,7 @@ public class Configuration {
     if (cacheEnabled) {
       executor = new CachingExecutor(executor);
     }
-      // 调用pluginAll方法，生成代理对象
+    // 调用pluginAll方法，生成代理对象
     return (Executor) interceptorChain.pluginAll(executor);
   }
 

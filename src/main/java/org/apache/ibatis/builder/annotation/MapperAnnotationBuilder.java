@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -92,8 +92,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 
 /**
  * @author Clinton Begin
- * @author Kazuki Shimizu
- * 解析指定的mapper接口对应的Class对象中，包含的所有mybatis框架中定义的注解，并生成Cache、ResultMap、MappedStatement三种类型对象
+ * @author Kazuki Shimizu 解析指定的mapper接口对应的Class对象中，包含的所有mybatis框架中定义的注解，并生成Cache、ResultMap、MappedStatement三种类型对象
  */
 public class MapperAnnotationBuilder {
 
@@ -114,39 +113,39 @@ public class MapperAnnotationBuilder {
   }
 
   public void parse() {
-      // Mapper全限定名
+    // Mapper全限定名
     String resource = type.toString();
-      // 如果已经处理过则不处理
+    // 如果已经处理过则不处理
     if (!configuration.isResourceLoaded(resource)) {
-        // 加载映射文件
+      // 加载映射文件
       loadXmlResource();
       configuration.addLoadedResource(resource);
-        // 设置当前命名空间
+      // 设置当前命名空间
       assistant.setCurrentNamespace(type.getName());
-        // 解析cache  @CacheNamespace注解
+      // 解析cache @CacheNamespace注解
       parseCache();
-        // 解析cache-ref  @CacheNamespaceRef注解
+      // 解析cache-ref @CacheNamespaceRef注解
       parseCacheRef();
-        // 获取类型中的方法
+      // 获取类型中的方法
       for (Method method : type.getMethods()) {
         if (!canHaveStatement(method)) {
           continue;
         }
-          // 解析ResultMap
+        // 解析ResultMap
         if (getAnnotationWrapper(method, false, Select.class, SelectProvider.class).isPresent()
             && method.getAnnotation(ResultMap.class) == null) {
           parseResultMap(method);
         }
         try {
-            // 解析statement
+          // 解析statement
           parseStatement(method);
         } catch (IncompleteElementException e) {
-            // 解析失败添加到incompleteMethod中
+          // 解析失败添加到incompleteMethod中
           configuration.addIncompleteMethod(new MethodResolver(this, method));
         }
       }
     }
-      // 处理解析失败的方法
+    // 处理解析失败的方法
     parsePendingMethods();
   }
 

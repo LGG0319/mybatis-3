@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -38,21 +38,21 @@ import org.apache.ibatis.reflection.SystemMetaObject;
  * @author Clinton Begin
  */
 public class CacheBuilder {
-    // cache的id
+  // cache的id
   private final String id;
-    // Cache接口的实现类
+  // Cache接口的实现类
   private Class<? extends Cache> implementation;
-    // 装饰器列表
+  // 装饰器列表
   private final List<Class<? extends Cache>> decorators;
-    // cache大小
+  // cache大小
   private Integer size;
-    // 清理时间周期
+  // 清理时间周期
   private Long clearInterval;
-    // 是否可读写
+  // 是否可读写
   private boolean readWrite;
-    // 配置信息
+  // 配置信息
   private Properties properties;
-    // 是否阻塞
+  // 是否阻塞
   private boolean blocking;
 
   public CacheBuilder(String id) {
@@ -98,22 +98,22 @@ public class CacheBuilder {
   }
 
   public Cache build() {
-      // 如果未指定实现和装饰器   这个方法进行设置默认值
+    // 如果未指定实现和装饰器 这个方法进行设置默认值
     setDefaultImplementations();
-      // 创建Cache对象
+    // 创建Cache对象
     Cache cache = newBaseCacheInstance(implementation, id);
-      // 设置cache的属性
+    // 设置cache的属性
     setCacheProperties(cache);
     // issue #352, do not apply decorators to custom caches
-      // 判断cache的类型  如果是PerpetualCache类型  添加装饰器
+    // 判断cache的类型 如果是PerpetualCache类型 添加装饰器
     if (PerpetualCache.class.equals(cache.getClass())) {
       for (Class<? extends Cache> decorator : decorators) {
         cache = newCacheDecoratorInstance(decorator, cache);
         setCacheProperties(cache);
       }
-        // 添加标准装饰器
+      // 添加标准装饰器
       cache = setStandardDecorators(cache);
-        // 如果不是LoggingCache的子类   添加LoggingCache
+      // 如果不是LoggingCache的子类 添加LoggingCache
     } else if (!LoggingCache.class.isAssignableFrom(cache.getClass())) {
       cache = new LoggingCache(cache);
     }
@@ -132,24 +132,24 @@ public class CacheBuilder {
   private Cache setStandardDecorators(Cache cache) {
     try {
       MetaObject metaCache = SystemMetaObject.forObject(cache);
-        // 如果size不为空且有对应的setter方法，设置size
+      // 如果size不为空且有对应的setter方法，设置size
       if (size != null && metaCache.hasSetter("size")) {
         metaCache.setValue("size", size);
       }
-        // 如果clearInterval不为空  添加定时清理装饰器
+      // 如果clearInterval不为空 添加定时清理装饰器
       if (clearInterval != null) {
         cache = new ScheduledCache(cache);
         ((ScheduledCache) cache).setClearInterval(clearInterval);
       }
-        // 如果支持读写  添加Serialized装饰器
+      // 如果支持读写 添加Serialized装饰器
       if (readWrite) {
         cache = new SerializedCache(cache);
       }
-        // 添加LoggingCache
+      // 添加LoggingCache
       cache = new LoggingCache(cache);
-        // 同步装饰器
+      // 同步装饰器
       cache = new SynchronizedCache(cache);
-        // 支持阻塞 添加阻塞装饰器
+      // 支持阻塞 添加阻塞装饰器
       if (blocking) {
         cache = new BlockingCache(cache);
       }

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,15 +20,14 @@ import java.util.concurrent.TimeUnit;
 import org.apache.ibatis.cache.Cache;
 
 /**
- * @author Clinton Begin
- * 这个装饰器会以一定的频率清空缓存
+ * @author Clinton Begin 这个装饰器会以一定的频率清空缓存
  */
 public class ScheduledCache implements Cache {
-    // 缓存装饰器
+  // 缓存装饰器
   private final Cache delegate;
-    // 清理间隔 默认为一小时
+  // 清理间隔 默认为一小时
   protected long clearInterval;
-    // 上次清理时间
+  // 上次清理时间
   protected long lastClear;
 
   public ScheduledCache(Cache delegate) {
@@ -54,7 +53,7 @@ public class ScheduledCache implements Cache {
 
   @Override
   public void putObject(Object key, Object object) {
-      // 判断是否需要清除缓存
+    // 判断是否需要清除缓存
     clearWhenStale();
     delegate.putObject(key, object);
   }

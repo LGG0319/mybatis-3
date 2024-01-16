@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,32 +32,31 @@ import org.apache.ibatis.reflection.ParamNameUtil;
 import org.apache.ibatis.session.Configuration;
 
 /**
- * @author Clinton Begin
- * 负责处理更复杂的映射关系
+ * @author Clinton Begin 负责处理更复杂的映射关系
  */
 public class ResultMap {
-    // Configuration对象
+  // Configuration对象
   private Configuration configuration;
-    // resultMap节点的id属性
+  // resultMap节点的id属性
   private String id;
-    // resultMap节点的type属性
+  // resultMap节点的type属性
   private Class<?> type;
-    // resultMapping列表 不包含discriminator节点解析的ResultMapping
+  // resultMapping列表 不包含discriminator节点解析的ResultMapping
   private List<ResultMapping> resultMappings;
-    // 映射关系中带有id节点 resultMapping
+  // 映射关系中带有id节点 resultMapping
   private List<ResultMapping> idResultMappings;
-    // constructor节点的resultMapping
+  // constructor节点的resultMapping
   private List<ResultMapping> constructorResultMappings;
   private List<ResultMapping> propertyResultMappings;
-    // column属性列表
+  // column属性列表
   private Set<String> mappedColumns;
-    // properties属性列表
+  // properties属性列表
   private Set<String> mappedProperties;
-    // discriminator节点解析出的数据
+  // discriminator节点解析出的数据
   private Discriminator discriminator;
-    // 是否有resultMap属性
+  // 是否有resultMap属性
   private boolean hasNestedResultMaps;
-    // 是否有select属性
+  // 是否有select属性
   private boolean hasNestedQueries;
   private Boolean autoMapping;
 

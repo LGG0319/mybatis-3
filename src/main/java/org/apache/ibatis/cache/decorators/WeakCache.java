@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,8 +27,7 @@ import org.apache.ibatis.cache.Cache;
  * <p>
  * Thanks to Dr. Heinz Kabutz for his guidance here.
  *
- * @author Clinton Begin
- * 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+ * @author Clinton Begin 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。
  */
 public class WeakCache implements Cache {
   private final Deque<Object> hardLinksToAvoidGarbageCollection;

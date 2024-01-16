@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,9 +28,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
 /**
- * @author Clinton Begin
- * 主要定义类关于CRUD、数据库事务、数据库刷新等相关操作
- * 解析SQL请求首先会经过的第一道关卡，主要作用在于创建缓存，管理StatementHandler的调用，为StatementHandler提供Configuration环境等
+ * @author Clinton Begin 主要定义类关于CRUD、数据库事务、数据库刷新等相关操作
+ *         解析SQL请求首先会经过的第一道关卡，主要作用在于创建缓存，管理StatementHandler的调用，为StatementHandler提供Configuration环境等
  */
 public interface Executor {
 

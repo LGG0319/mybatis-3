@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -42,11 +42,11 @@ public class XNode {
   public XNode(XPathParser xpathParser, Node node, Properties variables) {
     this.xpathParser = xpathParser;
     this.node = node;
-      // 获取Node名称   标签类型
+    // 获取Node名称 标签类型
     this.name = node.getNodeName();
-      // 传递过来的Properties
+    // 传递过来的Properties
     this.variables = variables;
-      // 解析节点中的属性字段   存储到一个Properties对象
+    // 解析节点中的属性字段 存储到一个Properties对象
     this.attributes = parseAttributes(node);
     this.body = parseBody(node);
   }
@@ -325,18 +325,19 @@ public class XNode {
     }
     return builder;
   }
-   // 解析出org.w3c.dom.NOde中的属性字段存储到一个Properties对象中
+
+  // 解析出org.w3c.dom.NOde中的属性字段存储到一个Properties对象中
   private Properties parseAttributes(Node n) {
     Properties attributes = new Properties();
-      // 获取NamedNodeMap
+    // 获取NamedNodeMap
     NamedNodeMap attributeNodes = n.getAttributes();
     if (attributeNodes != null) {
-        // 遍历NamedNodeMap
+      // 遍历NamedNodeMap
       for (int i = 0; i < attributeNodes.getLength(); i++) {
         Node attribute = attributeNodes.item(i);
-          // 解析配置的value值
+        // 解析配置的value值
         String value = PropertyParser.parse(attribute.getNodeValue(), variables);
-          // 存储到Properties中
+        // 存储到Properties中
         attributes.put(attribute.getNodeName(), value);
       }
     }
@@ -344,12 +345,12 @@ public class XNode {
   }
 
   private String parseBody(Node node) {
-      // 获取文本数据
+    // 获取文本数据
     String data = getBodyData(node);
     if (data == null) {
-        // 如果不是文本节点   获取子节点
+      // 如果不是文本节点 获取子节点
       NodeList children = node.getChildNodes();
-        // 遍历子节点  获取文本
+      // 遍历子节点 获取文本
       for (int i = 0; i < children.getLength(); i++) {
         Node child = children.item(i);
         data = getBodyData(child);
@@ -362,11 +363,11 @@ public class XNode {
   }
 
   private String getBodyData(Node child) {
-      // 处理文本节点
+    // 处理文本节点
     if (child.getNodeType() == Node.CDATA_SECTION_NODE || child.getNodeType() == Node.TEXT_NODE) {
-        // 获取内容
+      // 获取内容
       String data = ((CharacterData) child).getData();
-        // 处理占位符
+      // 处理占位符
       return PropertyParser.parse(data, variables);
     }
     return null;

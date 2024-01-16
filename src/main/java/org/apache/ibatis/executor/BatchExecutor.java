@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -118,19 +118,19 @@ public class BatchExecutor extends BaseExecutor {
       if (isRollback) {
         return Collections.emptyList();
       }
-        //遍历statement
+      // 遍历statement
       for (int i = 0, n = statementList.size(); i < n; i++) {
-          //设置查询的参数
+        // 设置查询的参数
         Statement stmt = statementList.get(i);
         applyTransactionTimeout(stmt);
         BatchResult batchResult = batchResultList.get(i);
         try {
-            // 这里会调用statement的executeBatch来把之前的准备好的sql批量执行。
+          // 这里会调用statement的executeBatch来把之前的准备好的sql批量执行。
           batchResult.setUpdateCounts(stmt.executeBatch());
           MappedStatement ms = batchResult.getMappedStatement();
-            //得到更新的操作
+          // 得到更新的操作
           List<Object> parameterObjects = batchResult.getParameterObjects();
-            // 如果使用了KeyGenerator。
+          // 如果使用了KeyGenerator。
           KeyGenerator keyGenerator = ms.getKeyGenerator();
           if (Jdbc3KeyGenerator.class.equals(keyGenerator.getClass())) {
             Jdbc3KeyGenerator jdbc3KeyGenerator = (Jdbc3KeyGenerator) keyGenerator;
@@ -141,7 +141,7 @@ public class BatchExecutor extends BaseExecutor {
             }
           }
           // Close statement to close cursor #1109
-            //关闭Statement
+          // 关闭Statement
           closeStatement(stmt);
         } catch (BatchUpdateException e) {
           StringBuilder message = new StringBuilder();
@@ -153,7 +153,7 @@ public class BatchExecutor extends BaseExecutor {
           }
           throw new BatchExecutorException(message.toString(), e, results, batchResult);
         }
-          // 将结果添加在result里面返回。
+        // 将结果添加在result里面返回。
         results.add(batchResult);
       }
       return results;

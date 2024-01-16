@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,8 +30,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.io.SerialFilterChecker;
 
 /**
- * @author Clinton Begin
- * 这个装饰器提供了序列化的功能，在存储缓存时会将value进行序列化，当查询缓存时再进行反序列化
+ * @author Clinton Begin 这个装饰器提供了序列化的功能，在存储缓存时会将value进行序列化，当查询缓存时再进行反序列化
  */
 public class SerializedCache implements Cache {
 

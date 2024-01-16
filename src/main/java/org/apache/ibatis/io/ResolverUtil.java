@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -53,8 +53,7 @@ import org.apache.ibatis.logging.LogFactory;
  * @author Tim Fennell
  *
  * @param <T>
- *          the generic type
- * 在指定的包下查找指定的类
+ *          the generic type 在指定的包下查找指定的类
  */
 public class ResolverUtil<T> {
 
@@ -103,7 +102,7 @@ public class ResolverUtil<T> {
     /** Returns true if type is assignable to the parent type supplied in the constructor. */
     @Override
     public boolean matches(Class<?> type) {
-        // 其实就是调用类的isAssignableFrom 来判断是不是父子关系
+      // 其实就是调用类的isAssignableFrom 来判断是不是父子关系
       return type != null && parent.isAssignableFrom(type);
     }
 
@@ -135,7 +134,7 @@ public class ResolverUtil<T> {
     /** Returns true if the type is annotated with the class provided to the constructor. */
     @Override
     public boolean matches(Class<?> type) {
-        // 其实就是调用类的isAssignableFrom 来判断是不是父子关系
+      // 其实就是调用类的isAssignableFrom 来判断是不是父子关系
       return type != null && type.isAnnotationPresent(annotation);
     }
 
@@ -204,7 +203,7 @@ public class ResolverUtil<T> {
     // 创建类型匹配器
     Test test = new IsA(parent);
     for (String pkg : packageNames) {
-        // 调用find 匹配查找
+      // 调用find 匹配查找
       find(test, pkg);
     }
 
@@ -229,7 +228,7 @@ public class ResolverUtil<T> {
     // 创建注解的匹配器
     Test test = new AnnotatedWith(annotation);
     for (String pkg : packageNames) {
-        // 调用find进行匹配查找
+      // 调用find进行匹配查找
       find(test, pkg);
     }
 
@@ -249,14 +248,14 @@ public class ResolverUtil<T> {
    * @return the resolver util
    */
   public ResolverUtil<T> find(Test test, String packageName) {
-      // 包名转路径 其实就是.转换成/
+    // 包名转路径 其实就是.转换成/
     String path = getPackagePath(packageName);
 
     try {
-        // 加载路径下的文件名
+      // 加载路径下的文件名
       List<String> children = VFS.getInstance().list(path);
       for (String child : children) {
-          // 如果是.class结尾的，根据test进行具体匹配判断
+        // 如果是.class结尾的，根据test进行具体匹配判断
         if (child.endsWith(".class")) {
           addIfMatching(test, child);
         }
@@ -293,13 +292,13 @@ public class ResolverUtil<T> {
   @SuppressWarnings("unchecked")
   protected void addIfMatching(Test test, String fqn) {
     try {
-        // 去除后缀，并将路径转为包名
+      // 去除后缀，并将路径转为包名
       String externalName = fqn.substring(0, fqn.indexOf('.')).replace('/', '.');
       ClassLoader loader = getClassLoader();
       if (log.isDebugEnabled()) {
         log.debug("Checking to see if class " + externalName + " matches criteria [" + test + "]");
       }
-        // 加载类
+      // 加载类
       Class<?> type = loader.loadClass(externalName);
       if (test.matches(type)) {
         matches.add((Class<T>) type);

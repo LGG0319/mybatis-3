@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,14 +24,13 @@ import org.apache.ibatis.binding.MapperProxy.MapperMethodInvoker;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * @author Lasse Voss
- * 映射器代理类的对象工厂,主要功能就是用来创建mapper代理对象 （创建时只传入接口信息，method信息调用时传入）
+ * @author Lasse Voss 映射器代理类的对象工厂,主要功能就是用来创建mapper代理对象 （创建时只传入接口信息，method信息调用时传入）
  */
 public class MapperProxyFactory<T> {
 
-    // 该代理对象所属的Mapper接口Class对象
+  // 该代理对象所属的Mapper接口Class对象
   private final Class<T> mapperInterface;
-    // 存储了Mapper中方法和MapperMethodInvoker的关系
+  // 存储了Mapper中方法和MapperMethodInvoker的关系
   private final Map<Method, MapperMethodInvoker> methodCache = new ConcurrentHashMap<>();
 
   public MapperProxyFactory(Class<T> mapperInterface) {
@@ -48,12 +47,12 @@ public class MapperProxyFactory<T> {
 
   @SuppressWarnings("unchecked")
   protected T newInstance(MapperProxy<T> mapperProxy) {
-      // 创建实现了mapperInterface接口的代理对象
+    // 创建实现了mapperInterface接口的代理对象
     return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[] { mapperInterface }, mapperProxy);
   }
 
   public T newInstance(SqlSession sqlSession) {
-      // 创建MapperProxy对象
+    // 创建MapperProxy对象
     final MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession, mapperInterface, methodCache);
     return newInstance(mapperProxy);
   }

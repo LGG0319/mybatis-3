@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ public class InterceptorChain {
   private final List<Interceptor> interceptors = new ArrayList<>();
 
   public Object pluginAll(Object target) {
-      //循环遍历插件
+    // 循环遍历插件
     for (Interceptor interceptor : interceptors) {
-        // 调用插件的plugin()方法
+      // 调用插件的plugin()方法
       target = interceptor.plugin(target);
     }
     return target;

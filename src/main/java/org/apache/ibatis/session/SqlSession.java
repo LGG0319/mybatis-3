@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -337,8 +337,7 @@ public interface SqlSession extends Closeable {
    *
    * @return BatchResult list of updated records
    *
-   * @since 3.0.6
-   * 更新记录的BatchResult列表
+   * @since 3.0.6 更新记录的BatchResult列表
    */
   List<BatchResult> flushStatements();
 
@@ -368,8 +367,7 @@ public interface SqlSession extends Closeable {
    * @param type
    *          Mapper interface class
    *
-   * @return a mapper bound to this SqlSession
-   * 绑定到此SqlSession的mapper
+   * @return a mapper bound to this SqlSession 绑定到此SqlSession的mapper
    */
   <T> T getMapper(Class<T> type);
 
